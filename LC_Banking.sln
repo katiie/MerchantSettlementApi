@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LC_Banking", "LC_Banking\LC_Banking.csproj", "{F48141BA-4C63-4399-9CF0-568E0F65929D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LC_Banking.Test", "LC_Banking.Test\LC_Banking.Test.csproj", "{33556E78-6644-45D1-A7D6-0A261DAE62B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F48141BA-4C63-4399-9CF0-568E0F65929D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F48141BA-4C63-4399-9CF0-568E0F65929D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F48141BA-4C63-4399-9CF0-568E0F65929D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F48141BA-4C63-4399-9CF0-568E0F65929D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33556E78-6644-45D1-A7D6-0A261DAE62B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33556E78-6644-45D1-A7D6-0A261DAE62B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33556E78-6644-45D1-A7D6-0A261DAE62B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33556E78-6644-45D1-A7D6-0A261DAE62B3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
