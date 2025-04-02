@@ -5,6 +5,7 @@ namespace LC_Banking;
 
 public class TransactionsResponse
 {
+    [JsonPropertyName("id")]
     public string Id { get; set; }
     public string Iban { get; set; }
     public Discount Discount { get; set; }
@@ -13,7 +14,7 @@ public class TransactionsResponse
 
 public class Discount
 {
-    [JsonPropertyName("minimum_transation_count")]
+    [JsonPropertyName("minimum_transaction_count")]
     public int MinimumTransactionCount { get; set; }
     [JsonPropertyName("fees_discount")]
     public int FeesDiscount { get; set; }

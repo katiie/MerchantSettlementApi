@@ -3,7 +3,7 @@ using System.Text.Json.Nodes;
 
 namespace LC_Banking;
 
-public class Program
+public static class Program
 {
     // Get Merchants
     // For each Merchant, get the transactions
@@ -12,28 +12,29 @@ public class Program
     // check does merchant meet minimum requirements for discount
     // if yes, apply discount to the total fee 
     // Subtract total fee from total amount
-    
-    static readonly HttpClient Client = new HttpClient();
-    static readonly string GetMerchantsUrl = "https://simpledebit.gocardless.io/merchants";
-    static readonly string GetMerchantsTransactionUrl = "https://simpledebit.gocardless.io/merchants";
 
-    public static void Main(string[] args)
+    private static readonly HttpClient Client = new HttpClient();
+    private static readonly string GetMerchantsUrl = "https://simpledebit.gocardless.io/merchants";
+    private static readonly string GetMerchantsTransactionUrl = "https://simpledebit.gocardless.io/merchants";
+
+    public static async Task Main(string[] args)
     {
-        var merchantIds = GetRequest<List<string>>(GetMerchantsUrl).Result;
+        var merchantIds = await GetRequest<List<string>>(GetMerchantsUrl);
         if (merchantIds != null && merchantIds.Any())
         {
+            Console.WriteLine("Hello world");
             var merchantSettlements = new List<MerchantSettlement>();
             foreach (var merchant in merchantIds)
             {
                 // Loop through the transactions
-                var transactionsResponse =
-                    GetRequest<TransactionsResponse>($"{GetMerchantsTransactionUrl}/{merchant}").Result;
+                var transactionsResponse = await GetRequest<TransactionsResponse>($"{GetMerchantsTransactionUrl}/{merchant}");
                 var merchantSettlement = GetMerchantSettlement(transactionsResponse);
                 if (merchantSettlement != null)
                     merchantSettlements.Add(merchantSettlement);
             }
 
             // Print settlement
+            Console.WriteLine($"count: {merchantSettlements.Count()}");
             PrintMerchantSettlements(merchantSettlements);
 
             // Build CSV
@@ -42,6 +43,8 @@ public class Program
         {
             Console.WriteLine("There are no merchants.");
         }
+
+        Console.ReadLine();
     }
 
     public static void PrintMerchantSettlements(List<MerchantSettlement> merchantSettlements)
@@ -75,8 +78,15 @@ public class Program
         return totalAmount;
     }
 
-    public static float GetDiscountedFeeAmount(float feeAmount, int discount) => feeAmount -  feeAmount * (discount / 100f);
-
+    public static float GetDiscountedFeeAmount(float feeAmount, int discountPercentage)
+    {
+        // Convert the integer percentage to a proper decimal fraction
+        float discountFraction = discountPercentage / 100f;
+    
+        // Calculate the discounted amount (applying the discount)
+        return feeAmount * (1 - discountFraction);
+    }
+    
     public static (float, float) CalculateTotals(List<Transaction> transactions)
     {
         if (!transactions.Any())
@@ -96,7 +106,11 @@ public class Program
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var result = await response.Content.ReadAsStringAsync();
-                var data = JsonSerializer.Deserialize<T>(result);
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                var data = JsonSerializer.Deserialize<T>(result, options);
                 return data;
             }
             else
